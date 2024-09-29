@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="eng">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, intial-scale=1.0">
+        <title>Log In</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="form-cointainer">
+            <h2>Log in Here</h2>
+            <form id="login-form">
+                <input type="email" id="email" placeholder="Email" required>
+                <br>
+                <input type="password" id="password" placeholder="Password" required>
+                <br>
+                <button type="submit">Log in</button>
+            </form>
+            <p>Don't have an account yet? <a href="Fregister.html">Register Here</a></p>
+        </div>
+        <script>
+            document.getElementById('login-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type':'application/json'
+                    },
+                    body: JSON.stringify({email, password})
+                });
+                const data = await response.json();
+                alert(data.message)
+                if (data.success) {
+                    window.location.href= 'index.html';
+                }
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="eng">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width initial-scale=1.0">
+        <title>Dashboard</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>Welcome</h1>
+        <div class="mood-tracker">
+            <h3>How are you feeling today?</h3>
+            <form id="mood-form">
+                <input type="number" id="moodScore" placeholder="Mood Score(1-10)" min="1" max="10" required>
+                <br>
+                <textarea id="moodDescription" placeholder="Describe your mood..." required></textarea>
+                <br>
+                <button type="submit">Submit Mood</button>
+            </form>
+        </div>
+        <script>
+            document.getElementById('mood-form').addEventListener('submit', async(e) => {
+                e.preventDefault();
+                const moodScore = document.getElementById('moodScore').value;
+                const moodDescription = document.getElementById('moodDescription').value;
+
+                const response = await fetch('/api/mood/track', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type':'application/json'
+                    },
+                    body: JSON.stringify({moodScore, moodDescription})
+                });
+
+                const data = await response.json();
+                alert(data.message);
+            });
+        </script>
+    </body>
+</html>
